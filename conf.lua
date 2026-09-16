@@ -17,6 +17,8 @@ function love.conf(t)
     --Having found the gameDirectory, read gameDirectory/info.json
     GameInfo = json.decode(love.filesystem.read(gameInfoPath))
     -- Set the config values from game info file
+    t.version = EngineInfo.loveVersion
     t.window.width = GameInfo.defaultWindowWidth; t.window.height = GameInfo.defaultWindowHeight;
     t.window.title = GameInfo.windowTitle
+    t.window.icon = GameInfo.iconPath
 end

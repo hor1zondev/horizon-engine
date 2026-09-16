@@ -1,4 +1,5 @@
 {
     "version": "0.0.1",
-    "gameDirectory": "game"
+    "gameDirectory": "game",
+    "loveVersion": "11.5"
 }

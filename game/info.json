@@ -2,5 +2,6 @@
     "windowTitle": "game",
     "defaultWindowWidth": 960,
     "defaultWindowHeight": 540,
-    "vsync": false
+    "vsync": false,
+    "iconPath": "engine/images/icon.png"
 }
