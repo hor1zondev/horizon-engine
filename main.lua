@@ -1,3 +1,4 @@
+local json = require "lib.json"
 
 -- Process modes for objects and their uses:
 PROCESS_MODE_ALWAYS = 0 -- object's script always runs.
@@ -10,15 +11,32 @@ PROCESS_MODE_DISABLED = 4 -- never runs.
 
 Scene = nil
 
+-- TODO find a way to unify these in a single engine file.
 local scene = require "engine.scene"
 local object = require "engine.object"
 
+local function loadSceneFromPath(path)
+    local newScene = scene.new()
+    -- Check if the scene file exists at given path
+    if love.filesystem.getInfo(path) == nil then
+        error("No scene file found in " .. path)
+    end
+    -- Read and decode the JSON file
+    local sceneData = json.decode(love.filesystem.read(path))
+    
+    return newScene
+end
+
 function love.load()
+    -- Loading the default scene (if it exists, otherwise it'll be just an empty scene)
+    if GameInfo.defaultScene == nil then Scene = scene.new() else Scene = loadSceneFromPath(GameInfo.defaultScene) end
+    --[[
     Scene = scene.new()
     local testObj = object.new(Scene)
     Scene:addChild(testObj)
     local testObj2 = object.new(testObj)
     testObj:addChild(testObj2)
+    ]]--
 end
 
 function love.update(delta)

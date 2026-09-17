@@ -34,7 +34,6 @@ function object.new(parent)
     end
 
     function newObject:_update(delta)
-        print(self.name, self:_checkForAllowedProcess())
         -- Check if object has a script attached and script process is allowed
         --if self.script == nil then return end
         if not self:_checkForAllowedProcess() then return end
