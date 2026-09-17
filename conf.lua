@@ -1,4 +1,4 @@
-local json = require "lib/json"
+local json = require "lib.json"
 
 EngineInfo = nil
 

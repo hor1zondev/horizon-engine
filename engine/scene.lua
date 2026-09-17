@@ -31,7 +31,7 @@ function scene.new()
         for child in ipairs(self.children) do
             if child.name == childName then return child end
         end
-        warn("Child with name " .. childName .. " was not found in object " .. self.name .. ". Returning nil.")
+        print("WARNING: Child with name " .. childName .. " was not found in object " .. self.name .. ". Returning nil.")
         return nil
     end
 

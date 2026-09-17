@@ -18,8 +18,18 @@ local object = require "engine.object"
 local function loadSceneFromPath(path)
     local function newObjectFromData(objData, parent)
         local newObj = object.new(parent)
+        -- this may need error checking for invalid types
         if objData.name ~= nil then newObj.name = objData.name end
-        -- TODO: load script, processMode, position, rotation, scale
+        if objData.processMode ~= nil then newObj.processMode = _G[objData.processMode] end
+        if objData.position ~= nil then newObj.position = objData.position end
+        if objData.rotation ~= nil then newObj.rotation = objData.rotation end
+        -- Load script if a path is given
+        if objData.script ~= nil then
+            local newScript = dofile(objData.script)
+            newScript.parent = newObj
+            newObj.script = newScript
+            newScript:load() -- NOTE: unsure if this is where the load function should be called
+        end
         -- Cycle through children data
         if objData.children ~= nil then
             for _, childData in pairs(objData.children) do
@@ -49,15 +59,14 @@ local function loadSceneFromPath(path)
 end
 
 function love.load()
+    local major, minor, revision = love.getVersion()
+    print("Made with Horizon Engine v" .. EngineInfo.version .. " (LÖVE v" .. major .. "." .. minor .. "." .. revision .. ")")
     -- Loading the default scene (if it exists, otherwise it'll be just an empty scene)
-    if GameInfo.defaultScene == nil then Scene = scene.new() else Scene = loadSceneFromPath(GameInfo.defaultScene) end
-    --[[
-    Scene = scene.new()
-    local testObj = object.new(Scene)
-    Scene:addChild(testObj)
-    local testObj2 = object.new(testObj)
-    testObj:addChild(testObj2)
-    ]]--
+    if GameInfo.defaultScene == nil then
+        Scene = scene.new()
+    else
+        Scene = loadSceneFromPath(GameInfo.defaultScene)
+    end
 end
 
 function love.update(delta)
