@@ -8,6 +8,7 @@ function object.new(parent)
         name = "Object" .. tostring(math.random(1048576));
         parent = parent;
         children = {};
+        components = {};
         position = {0, 0};
         rotation = 0;
         scale = {1, 1};
@@ -30,7 +31,9 @@ function object.new(parent)
     end
 
     function newObject:_load()
-        
+        if self.script ~= nil and self.script.load ~= nil then
+            self.script:load()
+        end
     end
 
     function newObject:_update(delta)
@@ -45,10 +48,18 @@ function object.new(parent)
         for _, child in ipairs(self.children) do
             child:_update(delta)
         end
+        -- Call update functions of components
+        for _, component in ipairs(self.components) do
+            if component._update ~= nil then component:_update(delta) end
+        end
     end
 
     function newObject:_draw()
-        
+        -- unsure about if this function should be dependent on processMode
+        -- Call draw functions of components
+        for _, component in ipairs(self.components) do
+            if component._draw ~= nil then component:_draw() end
+        end
     end
 
     function newObject:addChild(childObject)
@@ -63,6 +74,17 @@ function object.new(parent)
         end
 
         print("WARNING: Child with name " .. childName .. " was not found in object " .. self.name .. ". Returning nil.")
+        return nil
+    end
+
+    function newObject:getComponent(compName)
+        -- This might not be the best performant implementation of this function but I'll try a better method
+        -- later.
+        for component in ipairs(self.components) do
+            if component.name == compName then return component end
+        end
+
+        print("WARNING: Component with name " .. compName .. " was not found in object " .. self.name .. ". Returning nil.")
         return nil
     end
 
