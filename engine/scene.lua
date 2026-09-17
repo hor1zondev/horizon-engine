@@ -5,6 +5,13 @@ function scene.new()
         name = "Scene"; -- not sure if this will be of any use
         children = {};
         paused = false;
+        -- NOTE: I need to handle these assets carefully otherwise memory leak will occur.
+        -- Make sure that all assets get freed from memory (somehow) when a scene change occurs.
+        assets = {
+            images = {};
+            fonts = {};
+            sounds = {};
+        }
     }
 
     function newScene:_load()
@@ -18,7 +25,9 @@ function scene.new()
     end
 
     function newScene:_draw()
-        
+        for _, object in ipairs(self.children) do
+            object:_draw()
+        end
     end
 
     function newScene:addChild(childObject)

@@ -15,7 +15,8 @@
 
         {
             "name": "Object2",
-            "script": "game/scripts/testScript2.lua"
+            "script": "game/scripts/testScript2.lua",
+            "components": ["imageComponent"]
         }
     ]
 }

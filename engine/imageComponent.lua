@@ -1,5 +1,3 @@
-local engine = require "engine"
-
 local imageComponent = {}
 
 function imageComponent.new(parent)
@@ -11,8 +9,8 @@ function imageComponent.new(parent)
         -- Should I add scale here?
     }
 
-    function imageComponent:_draw()
-        print("draw function called")
+    function newComponent:_draw()
+        if not self.enabled or self.source == nil or self.color[4] <= 0 then return end
     end
 
     return newComponent

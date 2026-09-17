@@ -66,6 +66,10 @@ function object.new(parent)
         self.children[#self.children+1] = childObject
     end
 
+    function newObject:addComponent(component)
+        self.components[#self.components+1] = component
+    end
+
     function newObject:getChild(childName)
         -- This might not be the best performant implementation of this function but I'll try a better method
         -- later.
