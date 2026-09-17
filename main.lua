@@ -16,6 +16,20 @@ local scene = require "engine.scene"
 local object = require "engine.object"
 
 local function loadSceneFromPath(path)
+    local function newObjectFromData(objData, parent)
+        local newObj = object.new(parent)
+        if objData.name ~= nil then newObj.name = objData.name end
+        -- TODO: load script, processMode, position, rotation, scale
+        -- Cycle through children data
+        if objData.children ~= nil then
+            for _, childData in pairs(objData.children) do
+                local newChild = newObjectFromData(childData, newObj)
+                newObj:addChild(newChild)
+            end
+        end
+        return newObj
+    end
+
     local newScene = scene.new()
     -- Check if the scene file exists at given path
     if love.filesystem.getInfo(path) == nil then
@@ -23,7 +37,14 @@ local function loadSceneFromPath(path)
     end
     -- Read and decode the JSON file
     local sceneData = json.decode(love.filesystem.read(path))
-    
+    -- Set scene name
+    if sceneData.name == nil then newScene.name = "Scene" else newScene.name = sceneData.name end
+    -- Load children objects
+    if sceneData.children == nil then return end
+    for _, childData in pairs(sceneData.children) do
+        local newObj = newObjectFromData(childData, newScene)
+        newScene:addChild(newObj)
+    end
     return newScene
 end
 

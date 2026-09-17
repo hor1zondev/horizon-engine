@@ -1,16 +1,21 @@
 {
     "name": "TestScene",
     "children":
-    {
-        "Object":
+    [
         {
-            "children": {"ChildObject": {}},
-            "script": "scripts/testScript.lua"
+            "name": "Object",
+            "script": "game/scripts/testScript.lua",
+            "children":
+            [
+                {
+                    "name": "ChildObject"
+                }
+            ]
         },
 
-        "Object2":
         {
-            "script": "scripts/testScript2.lua"
+            "name": "Object2",
+            "script": "game/scripts/testScript2.lua"
         }
-    }
+    ]
 }

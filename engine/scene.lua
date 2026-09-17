@@ -2,6 +2,7 @@ local scene = {}
 
 function scene.new()
     local newScene = {
+        name = "Scene"; -- not sure if this will be of any use
         children = {};
         paused = false;
     }
