@@ -4,11 +4,27 @@ local engine = {}
 
 engine.scene = require "engine.scene"
 engine.object = require "engine.object"
-engine.components = {
-    imageComponent = require "engine.imageComponent";
-}
 engine.images = require "engine.images"
 
+ENGINE_COMPONENTS = {"imageComponent"}
+-- Process modes for objects and their uses:
+PROCESS_MODE_ALWAYS = 0 -- object's script always runs.
+PROCESS_MODE_PAUSED = 1 -- object's script only runs when Scene.paused is true.
+PROCESS_MODE_UNPAUSED = 2 -- reverse of PROCESS_MODE_UNPAUSED.
+PROCESS_MODE_INHERIT = 3 -- object's script runs if parent's script is running.
+PROCESS_MODE_DISABLED = 4 -- never runs.
+-- PROCESS_MODE_INHERIT is the default value for Object.processMode, and if the parent of an object is the scene itself
+-- the process will run no matter what.
+
+-- Some useful functions
+function engine.tableHasValue(table, value)
+    for _, v in pairs(table) do
+        if v == value then return true end
+    end
+    return false
+end
+
+-- Engine's functions
 function engine.loadSceneFromPath(path)
     local function newObjectFromData(objData, parent)
         local newObj = engine.object.new(parent)
@@ -34,10 +50,10 @@ function engine.loadSceneFromPath(path)
         if objData.components ~= nil then
             for _, compData in pairs(objData.components) do
                 -- Check if the engine has a component with that name
-                local engineComponent = engine.components[compData]
-                if engineComponent == nil then
-                    error("No component with name " .. compData .. " exists in engine.components.")
+                if not engine.tableHasValue(ENGINE_COMPONENTS, compData) then
+                    error("No engine component with name " .. compData .. " exists.")
                 end
+                local engineComponent = dofile("engine/" .. compData .. ".lua")--engine.components[compData]
                 local newComponent = engineComponent.new(newObj)
                 newObj:addComponent(newComponent)
             end

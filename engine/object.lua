@@ -84,7 +84,7 @@ function object.new(parent)
     function newObject:getComponent(compName)
         -- This might not be the best performant implementation of this function but I'll try a better method
         -- later.
-        for component in ipairs(self.components) do
+        for _, component in ipairs(self.components) do
             if component.name == compName then return component end
         end
 
