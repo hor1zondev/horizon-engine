@@ -19,8 +19,14 @@ function imageComponent.new(parent)
             print("WARNING (imageComponent._draw): No image with id " + self.source + " was found in engine.images.sources. Returning.")
             return
         end
+        local camera = Scene:getChild("Camera")
+        -- Make sure it exists
+        if camera == nil then
+            error("Failed to find the Camera object in scene.")
+        end
         love.graphics.push()
-            -- TODO add camera
+            love.graphics.translate(-camera.position[1], -camera.position[2])
+            love.graphics.scale(camera.scale[1], camera.scale[2])
             love.graphics.draw(
                 image, self.parent.position[1], self.parent.position[2], self.parent.rotation,
                 self.parent.scale[1], self.parent.scale[2], image:getWidth()/2, image:getHeight()/2

@@ -73,12 +73,19 @@ function object.new(parent)
     function newObject:getChild(childName)
         -- This might not be the best performant implementation of this function but I'll try a better method
         -- later.
-        for child in ipairs(self.children) do
+        for _, child in pairs(self.children) do
             if child.name == childName then return child end
         end
 
         print("WARNING: Child with name " .. childName .. " was not found in object " .. self.name .. ". Returning nil.")
         return nil
+    end
+
+    function newObject:hasChild(childName)
+        for _, child in pairs(self.children) do
+            if child.name == childName then return true end
+        end
+        return false
     end
 
     function newObject:getComponent(compName)

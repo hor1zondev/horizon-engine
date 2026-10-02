@@ -88,6 +88,12 @@ function engine.loadSceneFromPath(path)
             newScene:addChild(newObj)
         end
     end
+    -- If no Camera object was given in the json file, load a default camera object
+    if not newScene:hasChild("Camera") then
+        local camera = engine.object.new(newScene)
+        camera.name = "Camera"
+        newScene:addChild(camera)
+    end
     return newScene
 end
 

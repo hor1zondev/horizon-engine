@@ -3,6 +3,9 @@
     "children":
     [
         {
+            "name": "Camera"
+        },
+        {
             "name": "Object",
             "script": "game/scripts/testScript.lua",
             "children":
