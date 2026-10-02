@@ -18,5 +18,11 @@
             "script": "game/scripts/testScript2.lua",
             "components": ["imageComponent"]
         }
-    ]
+    ],
+
+    "assets": {
+        "images": {
+            "placeholder": "engine/assets/images/icon.png"
+        }
+    }
 }

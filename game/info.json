@@ -3,6 +3,6 @@
     "defaultWindowWidth": 960,
     "defaultWindowHeight": 540,
     "vsync": false,
-    "iconPath": "engine/images/icon.png",
+    "iconPath": "engine/assets/images/icon.png",
     "defaultScene": "game/scenes/test.json"
 }

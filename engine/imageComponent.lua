@@ -6,7 +6,7 @@ function imageComponent.new(parent)
         enabled = true;
         source = nil;
         color = {1, 1, 1, 1};
-        -- Should I add scale here?
+        -- NOTE should I add scale here?
     }
 
     function newComponent:_draw()

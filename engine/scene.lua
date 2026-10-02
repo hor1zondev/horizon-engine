@@ -7,6 +7,11 @@ function scene.new()
         paused = false;
         -- NOTE: I need to handle these assets carefully otherwise memory leak will occur.
         -- Make sure that all assets get freed from memory (somehow) when a scene change occurs.
+        -- The current idea I have for loading assets is two ways:
+        -- 1) assets can be specified to load in the scene json file, which will be loaded when the scene is
+        -- being set up for the first time.
+        -- 2) The other way could be to give the user a loadImage/Font/Sound function which will also check
+        -- if the specified asset is already loaded.
         assets = {
             images = {};
             fonts = {};

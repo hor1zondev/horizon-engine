@@ -7,6 +7,7 @@ engine.object = require "engine.object"
 engine.components = {
     imageComponent = require "engine.imageComponent";
 }
+engine.images = require "engine.images"
 
 function engine.loadSceneFromPath(path)
     local function newObjectFromData(objData, parent)
@@ -53,12 +54,23 @@ function engine.loadSceneFromPath(path)
     local sceneData = json.decode(love.filesystem.read(path))
     -- Set scene name
     if sceneData.name == nil then newScene.name = "Scene" else newScene.name = sceneData.name end
+    -- Load assets (TODO: also add unload assets here, left from the previous scene)
+    if sceneData.assets ~= nil then
+        --Load images
+        if sceneData.assets.images ~= nil then
+            for id, filename in pairs(sceneData.assets.images) do
+                engine.images.loadImage(id, filename)
+                -- NOTE might add a verbose print here later and to other places
+            end
+        end
+    end
     -- Load children objects
-    if sceneData.children == nil then return end
-    for _, childData in pairs(sceneData.children) do
-        local newObj = newObjectFromData(childData, newScene)
-        newObj:_load()
-        newScene:addChild(newObj)
+    if sceneData.children ~= nil then
+        for _, childData in pairs(sceneData.children) do
+            local newObj = newObjectFromData(childData, newScene)
+            newObj:_load()
+            newScene:addChild(newObj)
+        end
     end
     return newScene
 end
